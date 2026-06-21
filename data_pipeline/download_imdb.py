@@ -108,21 +108,22 @@ async def main():
         TimeRemainingColumn(),
     )
 
-    async with (
-        progress,
-        httpx.AsyncClient(timeout=120.0) as client,
-    ):
-        tasks = [
-            download_file(
-                client,
-                filename,
-                metadata,
-                progress,
-            )
-            for filename in IMDB_FILES
-        ]
+    with progress:
+        async with httpx.AsyncClient(
+            timeout=120.0
+        ) as client:
 
-        await asyncio.gather(*tasks)
+            tasks = [
+                download_file(
+                    client,
+                    filename,
+                    metadata,
+                    progress,
+                )
+                for filename in IMDB_FILES
+            ]
+
+            await asyncio.gather(*tasks)
 
     save_metadata(metadata)
 
