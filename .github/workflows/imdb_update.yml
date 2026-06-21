@@ -38,7 +38,3 @@ jobs:
       - name: Merge Incremental Data
         run: |
           uv run python data_pipeline/merge_movies.py
-
-      - name: Update PostgreSQL
-        run: |
-          uv run python data_pipeline/update_postgres.py
